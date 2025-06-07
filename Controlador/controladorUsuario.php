@@ -6,19 +6,23 @@ error_reporting(E_ALL);
 
 header('Content-Type: application/json');
 
-// Validar que los datos vienen bien
-if (!isset($_POST['documento'], $_POST['clave'], $_POST['accion'])) {
-    echo json_encode(['respuesta' => 'no existe']);
-    exit;
-}
 
-$usuario = htmlspecialchars(trim("$_POST[documento]"));
-$password = htmlspecialchars(trim("$_POST[clave]"));
 
-$datos = array("documento"=>$usuario, "clave"=>$password);
+file_put_contents("debug.log", print_r($_POST, true));
+//var_dump($_POST);
+//exit;
 
 switch ($_POST['accion']){   
     case 'login':
+        if (!isset($_POST['documento'], $_POST['clave'])) {
+            echo json_encode(['respuesta' => 'faltan datos']);
+            exit;
+        }
+
+        $usuario = htmlspecialchars(trim($_POST['documento']));
+        $password = htmlspecialchars(trim($_POST['clave']));
+        $datos = array("documento"=>$usuario, "clave"=>$password);
+
         $usuario = new Usuario();
         $usuario->consultar($datos);
 

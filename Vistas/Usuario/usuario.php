@@ -31,21 +31,21 @@
               <table id="tabla" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th>Codigo</th>
-                  <th>Nombre</th>
-                  <th>Documento</th>
-                  <th>Email</th>
-                  <th>Clave</th>
-                  <th>Rol</th>
-                  <th>Foto</th>
-                  <th>Estado</th>
+                  <th>IDusuario</th>
+                  <th>nombreUsu</th>
+                  <th>documentoUsu</th>
+                  <th>emailUsu</th>
+                  <th>clave</th>
+                  <th>rol</th>
+                  <th>fotoUsu</th>
+                  <th>estadoUsu</th>
                   <th>Acciones</th>
                 </tr>
                 </thead>
                 <tbody>
                 
                 </tbody>
-                <tfoot>
+                <!--<tfoot>
                 <tr>
                   <th>Codigo</th>
                   <th>Nombre</th>
@@ -57,7 +57,7 @@
                   <th>Estado</th>
                   <th>Acciones</th>
                 </tr>
-                </tfoot>
+                </tfoot>-->
               </table>
             </div>
             <!-- /.box-body -->

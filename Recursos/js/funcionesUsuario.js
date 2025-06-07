@@ -16,7 +16,7 @@ function usuario() {
             } else {
                 swal({
                     position: 'center',
-                    icon: 'error', 
+                    type: 'error', 
                     title: 'Usuario y/o Password incorrecto',
                     showConfirmButton: false,
                     timer: 1500
@@ -39,7 +39,12 @@ function usuario() {
                 data: { accion: "listar" }, // 👈 Aquí indicas los datos que enviarás por POST
                 dataSrc: function(json) {
                     console.log("Respuesta del servidor:", json); // para depuración
-                    return json.data || [];
+                    if (json.error) {
+                        alert("Error: " + json.error);
+                        return [];
+                    }
+                     return json.data || [];
+                    //return json.data || [];
                 },
                     error: function(xhr, status, error) {
                     console.error("Error AJAX:", xhr.responseText);
@@ -53,7 +58,8 @@ function usuario() {
                 { "data": "clave"} ,
   	            { "data": "rol" },
   	            { "data": "fotoUsu" },
-                { "data": "estadoUsu",    
+                { "data": "estadoUsu"}, 
+                { "data": "acciones",       
                     render: function (data) {
                               return '<a href="#" data-codigo="'+ data + 
                                      '" class="btn btn-danger btn-sm borrar"> <i class="fa fa-trash"></i></a>'
