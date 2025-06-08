@@ -1,5 +1,6 @@
 Array
 (
-    [codigo] => 24
-    [accion] => consultar
+    [documento] => 2222
+    [clave] => 2222.a
+    [accion] => login
 )

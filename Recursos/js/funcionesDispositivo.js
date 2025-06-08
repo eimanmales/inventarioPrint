@@ -1,12 +1,16 @@
-function comunas(){
-
-      var dt = $("#tabla").DataTable({
-          	"ajax": "./Controlador/controladorComuna.php?accion=listar",
+function dispositivos(){
+    var dt = $("#tabla").DataTable({
+          	"ajax": "./Controlador/controladorDispositivo.php?accion=listar",
           	"columns": [
-  	            { "data": "comu_codi"} ,
-  	            { "data": "comu_nomb" },
-  	            { "data": "muni_nomb" },
-                { "data": "comu_codi",
+  	            { "data": "IDdispositivo"} ,
+  	            { "data": "serial" },
+  	            { "data": "marca" },
+                { "data": "modelo" },
+                { "data": "estadoDis"} ,
+  	            { "data": "nombreUsu" },
+                { "data": "nombreCli"} ,
+  	            { "data": "ubicacion" },
+                { "data": "IDdispositivo",
                     render: function (data) {
                               return '<a href="#" data-codigo="'+ data + 
                                      '" class="btn btn-danger btn-sm borrar"> <i class="fa fa-trash"></i></a>'
@@ -18,7 +22,7 @@ function comunas(){
       });
 
     $("#editar").on("click",".btncerrar", function(){
-        $(".box-title").html("Listado de Comunas");
+        $(".box-title").html("Listado de Clientes");
         $("#editar").addClass('hide');
         $("#editar").removeClass('show');
         $("#listado").addClass('show');
@@ -28,32 +32,69 @@ function comunas(){
 
     $(".box").on("click","#nuevo", function(){
         $(this).hide();
-        $(".box-title").html("Crear Comuna");
+        $(".box-title").html("Crear Cliente");
         $("#editar").addClass('show');
         $("#editar").removeClass('hide');
         $("#listado").addClass('hide');
         $("#listado").removeClass('show');
-        $("#editar").load('./Vistas/Comuna/nuevaComuna.php', function(){
+        $("#editar").load('./Vistas/Dispositivo/nuevoDispositivo.php', function(){
+            $.ajax({
+                type:"POST",
+                url:"Controlador/controladorUsuario.php",
+                data: {accion:'listar'},
+                dataType:"json"
+             }).done(function( resultado ) {
+                                    
+                $("#IDusuario option").remove()       
+                $("#IDusuario").append("<option selecte value=''>Seleccione...</option>")
+                $.each(resultado.data, function (index, value) { 
+                    $("#IDusuario").append("<option value='" + value.IDusuario + "'>" + value.nombreUsu + "</option>")
+                 });
+             });
             $.ajax({
                type:"get",
-               url:"./Controlador/controladorMunicipio.php",
+               url:"./Controlador/controladorCliente.php",
                data: {accion:'listar'},
                dataType:"json"
-            }).done(function( resultado ) {                    ;
-                $.each(resultado.data, function (index, value) { 
-                  $("#editar #muni_codi").append("<option value='" + value.muni_codi + "'>" + value.muni_nomb + "</option>")
+            }).done(function( resultado ) {                    
+                $.each(resultado.data, function (index, value) {
+                  $("#editar #IDcliente").append("<option value='" + value.IDcliente + "'>" + value.nombreCli + "</option>")
                 });
             });
-        });
-        
+        }); 
     })
 
+
     $("#editar").on("click","button#grabar",function(){
-      var datos=$("#fcomuna").serialize();
-      //console.log(datos);
+         $(document).ready(function() {
+            // Evento para limpiar el estado de error al escribir en los inputs
+            $("#fdispositivo input, select").on("input select", function() {
+            $(this).css("border", ""); // Restablecer el borde
+            $(this).next(".error-message").hide(); // Ocultar mensaje de error
+            });
+        });
+    let todosLlenos = true;
+
+    // Recorrer los inputs del formulario
+    $("#fdispositivo input, select").each(function() {
+        if  ($(this).attr("name") !== "IDdispositivo" && $(this).val().trim() === '') {
+            // Si el campo está vacío
+            $(this).css("border", "1px solid red"); // Cambiar el borde a rojo
+            $(this).next(".error-message").show(); // Mostrar mensaje de error
+            
+            todosLlenos = false;  
+        } else {
+            // Si el campo no está vacío
+            $(this).css("border", ""); // Restablecer el borde
+            $(this).next(".error-message").hide(); // Ocultar mensaje de error
+        }
+    });
+     if (todosLlenos) {
+      var datos=$("#fdispositivo").serialize();
+      console.log(datos);
       $.ajax({
             type:"get",
-            url:"./Controlador/controladorComuna.php",
+            url:"./Controlador/controladorDispositivo.php",
             data: datos,
             dataType:"json"
           }).done(function( resultado ) {
@@ -61,11 +102,11 @@ function comunas(){
                 swal({
                     position: 'center',
                     type: 'success',
-                    title: 'La comuna fue grabada con éxito',
+                    title: 'El dispositivo fue guardado con éxito',
                     showConfirmButton: false,
                     timer: 1200
                 })     
-                    $(".box-title").html("Listado de Comunas");
+                    $(".box-title").html("Listado de Dispositivos");
                     $(".box #nuevo").show();
                     $("#editar").html('');
                     $("#editar").addClass('hide');
@@ -78,21 +119,22 @@ function comunas(){
                 swal({
                     position: 'center',
                     type: 'error',
-                    title: 'Ocurrió un erro al grabar',
+                    title: 'Ocurrió un erro al guardar',
                     showConfirmButton: false,
                     timer: 1500
                 });
                
             }
         });
+    }
     });
 
     $("#editar").on("click","button#actualizar",function(){
-         var datos=$("#fcomuna").serialize();
+         var datos=$("#fdispositivo").serialize();
          console.log(datos);
          $.ajax({
             type:"get",
-            url:"./Controlador/controladorComuna.php",
+            url:"./Controlador/controladorDispositivo.php",
             data: datos,
             dataType:"json"
           }).done(function( resultado ) {
@@ -105,7 +147,7 @@ function comunas(){
                     showConfirmButton: false,
                     timer: 1500
                 }) 
-                $(".box-title").html("Listado de Comunas");
+                $(".box-title").html("Listado de Dispositivo");
                 $("#editar").html('');
                 $("#editar").addClass('hide');
                 $("#editar").removeClass('show');
@@ -128,7 +170,7 @@ function comunas(){
         
         swal({
               title: '¿Está seguro?',
-              text: "¿Realmente desea borrar la comuna con codigo : " + codigo + " ?",
+              text: "¿Realmente desea borrar el Dispositivo con codigo : " + codigo + " ?",
               type: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#3085d6',
@@ -138,7 +180,7 @@ function comunas(){
                 if (decision.value) {
                     var request = $.ajax({
                         method: "get",                  
-                        url: "./Controlador/controladorComuna.php",
+                        url: "./Controlador/controladorDispositivo.php",
                         data: {codigo: codigo, accion:'borrar'},
                         dataType: "json"
                     })
@@ -147,7 +189,7 @@ function comunas(){
                             swal({
                               position: 'center',
                               type: 'success',
-                              title: 'La comuna con codigo ' + codigo + ' fue borrada',
+                              title: 'El dispositivo con codigo ' + codigo + ' fue borrado',
                               showConfirmButton: false,
                               timer: 1500
                             })       
@@ -181,46 +223,70 @@ function comunas(){
        //$("#titulo").html("Editar Comuna");
        //Recupera datos del fromulario
        var codigo = $(this).data("codigo");
-       var municipio;
-       $(".box-title").html("Actualizar Comuna")
+       var cliente;
+       var usuario;
+       $(".box-title").html("Actualizar Dispositivo")
        $("#editar").addClass('show');
        $("#editar").removeClass('hide');
        $("#listado").addClass('hide');
        $("#listado").removeClass('show');
-       $("#editar").load("./Vistas/Comuna/editarComuna.php",function(){
+       $("#editar").load("./Vistas/Dispositivo/editarDispositivo.php",function(){
             $.ajax({
                 type:"get",
-                url:"./Controlador/controladorComuna.php",
+                url:"./Controlador/controladorDispositivo.php",
                 data: {codigo: codigo, accion:'consultar'},
                 dataType:"json"
-                }).done(function( comuna ) {        
-                    if(comuna.respuesta === "no existe"){
+                }).done(function( dispositivo ) {        
+                    if(dispositivo.respuesta === "no existe"){
                         swal({
                         type: 'error',
                         title: 'Oops...',
-                        text: 'Comuna no existe!'                         
+                        text: 'Dispositivo no existe!'                         
                         })
                     } else {
-                        $("#comu_codi").val(comuna.codigo);                   
-                        $("#comu_nomb").val(comuna.comuna);
-                        municipio = comuna.municipio;
+                        $("#IDdispositivo").val(dispositivo.IDdispositivo);                   
+                        $("#serial").val(dispositivo.serial);
+                        $("#marca").val(dispositivo.marca);  
+                        $("#modelo").val(dispositivo.modelo);                   
+                        $("#estadoDis").val(dispositivo.estadoDis);
+                        cliente = dispositivo.IDcliente;
+                        $("#IDcliente").val(cliente); 
+                        usuario = dispositivo.IDusuario; 
+                        $("#IDusuario").val(usuario);                    
+                        $("#ubicacion").val(dispositivo.ubicacion);
+                        
                     }
             });
  
-            $.ajax({
+        });
+        $.ajax({
                 type:"get",
-                url:"./Controlador/controladorMunicipio.php",
+                url:"./Controlador/controladorCliente.php",
                 data: {accion:'listar'},
                 dataType:"json"
-            }).done(function( resultado ) {                      
-                $.each(resultado.data, function (index, value) { 
-                if(municipio === value.muni_codi){
-                    $("#editar #muni_codi").append("<option selected value='" + value.muni_codi + "'>" + value.muni_nomb + "</option>")
+            }).done(function( resultado ) {
+                $.each(resultado.data, function (index, value) {
+                if(cliente === value.IDcliente){
+                    $("#editar #IDcliente").append("<option selected value='" + value.IDcliente + "'>" + value.nombreCli + "</option>")
                 }else {
-                    $("#editar #muni_codi").append("<option value='" + value.muni_codi + "'>" + value.muni_nomb + "</option>")
+                    $("#editar #IDcliente").append("<option value='" + value.IDcliente + "'>" + value.nombreCli + "</option>")
                 }
                 });
             });
-        });
+
+            $.ajax({
+                type:"POST",
+                url:"./Controlador/controladorUsuario.php",
+                data: {accion:'listar'},
+                dataType:"json"
+            }).done(function( resultado ) {
+                $.each(resultado.data, function (index, value) {
+                if(usuario === value.IDusuario){
+                    $("#editar #IDusuario").append("<option selected value='" + value.IDusuario + "'>" + value.nombreUsu + "</option>")
+                }else {
+                    $("#editar #IDusuario").append("<option value='" + value.IDusuario + "'>" + value.nombreUsu + "</option>")
+                }
+                });
+            });
     })
 }

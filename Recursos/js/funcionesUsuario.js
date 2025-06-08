@@ -12,8 +12,18 @@ function usuario() {
       dataType: "json",
     })
       .done(function (resultado) {
+        if (resultado.respuesta === "inactivo") {
+          swal({
+            type: "error",
+            title: "Usuario inactivo",
+            text: "Tu cuenta está deshabilitada. Contacta con el administrador.",
+          }).then(() => {
+            location.href = "index.php"; 
+          });
+          return;
+        }
         if (resultado.respuesta === "existe") {
-          location.href = "adminper.php";
+          window.location.href = "adminper.php";
         } else {
           swal({
             position: "center",
@@ -22,7 +32,7 @@ function usuario() {
             showConfirmButton: false,
             timer: 1500,
           }).then(() => {
-            $("#usuario").focus().select();
+            $("#documento").focus().select();
           });
         }
       })
@@ -92,72 +102,71 @@ function usuario() {
     $("#editar").load("./Vistas/Usuario/nuevoUsuario.php");
   });
 
-
   $("#editar").on("click", "button#grabar", function () {
-    $(document).ready(function() {
-    // Evento para limpiar el estado de error al escribir en los inputs
-    $("#fusuario input, select").on("input", function() {
+    $(document).ready(function () {
+      // Evento para limpiar el estado de error al escribir en los inputs
+      $("#fusuario input, select").on("input", function () {
         $(this).css("border", ""); // Restablecer el borde
         $(this).next(".error-message").hide(); // Ocultar mensaje de error
+      });
     });
-})
     let todosLlenos = true;
 
     // Recorrer los inputs del formulario
-    $("#fusuario input, select").each(function() {
-        if  ($(this).attr("name") !== "IDusuario" && $(this).val().trim() === '') {
-            // Si el campo está vacío
-            $(this).css("border", "1px solid red"); // Cambiar el borde a rojo
-            $(this).next(".error-message").show(); // Mostrar mensaje de error
-            
-            todosLlenos = false;  
-        } else {
-            // Si el campo no está vacío
-            $(this).css("border", ""); // Restablecer el borde
-            $(this).next(".error-message").hide(); // Ocultar mensaje de error
-        }
+    $("#fusuario input, select").each(function () {
+      if ($(this).attr("name") !== "IDusuario" && $(this).val().trim() === "") {
+        // Si el campo está vacío
+        $(this).css("border", "1px solid red"); // Cambiar el borde a rojo
+        $(this).next(".error-message").show(); // Mostrar mensaje de error
+
+        todosLlenos = false;
+      } else {
+        // Si el campo no está vacío
+        $(this).css("border", ""); // Restablecer el borde
+        $(this).next(".error-message").hide(); // Ocultar mensaje de error
+      }
     });
-     if (todosLlenos) {
-    var datos = $("#fusuario").serialize();
-    //console.log(datos);
-    $.ajax({
-      url: "./Controlador/controladorUsuario.php",
-      type: "POST",
-      data: datos,
-      dataType: "json",
-    })
-      .done(function (resultado) {
-        if (resultado.respuesta) {
-          swal({
-            position: "center",
-            type: "success",
-            title: "La Usuario fue grabada con éxito",
-            showConfirmButton: false,
-            timer: 1200,
-          });
-          $(".box-title").html("Listado de Usuario");
-          $(".box #nuevo").show();
-          $("#editar").html("");
-          $("#editar").addClass("hide");
-          $("#editar").removeClass("show");
-          $("#listado").addClass("show");
-          $("#listado").removeClass("hide");
-          dt.page("last").draw("page");
-          dt.ajax.reload(null, false);
-        } else {
-          swal({
-            position: "center",
-            type: "error",
-            title: "Ocurrió un erro al grabar",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-        }
+    if (todosLlenos) {
+      var datos = $("#fusuario").serialize();
+      //console.log(datos);
+      $.ajax({
+        url: "./Controlador/controladorUsuario.php",
+        type: "POST",
+        data: datos,
+        dataType: "json",
       })
-      .fail(function (jqXHR, textStatus, errorThrown) {
-        console.error("Error en AJAX:", textStatus, errorThrown);
-        console.error("Respuesta recibida:", jqXHR.responseText); // <--- aquí ves el error completo
-      });
+        .done(function (resultado) {
+          if (resultado.respuesta) {
+            swal({
+              position: "center",
+              type: "success",
+              title: "La Usuario fue grabada con éxito",
+              showConfirmButton: false,
+              timer: 1200,
+            });
+            $(".box-title").html("Listado de Usuario");
+            $(".box #nuevo").show();
+            $("#editar").html("");
+            $("#editar").addClass("hide");
+            $("#editar").removeClass("show");
+            $("#listado").addClass("show");
+            $("#listado").removeClass("hide");
+            dt.page("last").draw("page");
+            dt.ajax.reload(null, false);
+          } else {
+            swal({
+              position: "center",
+              type: "error",
+              title: "Ocurrió un erro al grabar",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+          console.error("Error en AJAX:", textStatus, errorThrown);
+          console.error("Respuesta recibida:", jqXHR.responseText); // <--- aquí ves el error completo
+        });
     }
   });
 
@@ -248,11 +257,10 @@ function usuario() {
     });
   });
 
-
   $(".box-body").on("click", "a.editar", function () {
     //Recupera datos del fromulario
     var codigo = $(this).data("codigo");
-    
+
     $(".box-title").html("Actualizar Usuario");
     $("#editar").addClass("show");
     $("#editar").removeClass("hide");
@@ -282,7 +290,6 @@ function usuario() {
           $("#estadoUsu").val(usuario.estadoUsu);
         }
       });
-
     });
   });
 }

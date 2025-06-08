@@ -1,19 +1,19 @@
 <?php
  
-require_once '../Modelo/modeloComuna.php';
+require_once '../Modelo/modeloCliente.php';
 $datos = $_GET;
 switch ($_GET['accion']){
     case 'editar':
-        $comuna = new Comuna();
-        $resultado = $comuna->editar($datos);
+        $cliente = new Cliente();
+        $resultado = $cliente->editar($datos);
         $respuesta = array(
                 'respuesta' => $resultado
             );
         echo json_encode($respuesta);
         break;
     case 'nuevo':
-        $comuna = new Comuna();
-        $resultado = $comuna->nuevo($datos);
+        $cliente = new Cliente();
+        $resultado = $cliente->nuevo($datos);
         if($resultado > 0) {
             $respuesta = array(
                 'respuesta' => $resultado
@@ -27,8 +27,8 @@ switch ($_GET['accion']){
         break;
        
     case 'borrar':
-		$comuna = new Comuna();
-		$resultado = $comuna->borrar($datos['codigo']);
+		$cliente = new Cliente();
+		$resultado = $cliente->borrar($datos['codigo']);
         if($resultado > 0) {
             $respuesta = array(
                 'respuesta' => 'correcto'
@@ -42,18 +42,20 @@ switch ($_GET['accion']){
         break;
 
     case 'consultar':
-        $comuna = new Comuna();
-        $comuna->consultar($datos['codigo']);
+        $cliente = new Cliente();
+        $cliente->consultar($datos['codigo']);
 
-        if($comuna->getComu_codi() == null) {
+        if($cliente->getIDcliente() == null) {
             $respuesta = array(
                 'respuesta' => 'no existe'
             );
         }  else {
             $respuesta = array(
-                'codigo' => $comuna->getComu_codi(),
-                'comuna' => $comuna->getComu_nomb(),
-                'municipio' =>$comuna->getMuni_codi(),
+                'IDcliente' => $cliente->getIDcliente(),
+                'nombreCli' => $cliente->getNombreCli(),
+                'nit' =>$cliente->getNit(),
+                'telefonoCli' => $cliente->getTelefonoCli(),
+                'emailCli' => $cliente->getEmailCli(),
                 'respuesta' =>'existe'
             );
         }
@@ -61,8 +63,8 @@ switch ($_GET['accion']){
         break;
 
     case 'listar':
-        $comuna = new Comuna();
-        $listado = $comuna->lista();
+        $cliente = new Cliente();
+        $listado = $cliente->lista();
         echo json_encode(array('data'=>$listado), JSON_UNESCAPED_UNICODE);    
         break;
 }

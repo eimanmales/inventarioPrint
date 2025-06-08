@@ -6,102 +6,59 @@
         <div class="panel panel-primary">
             <div class="panel-heading">Datos</div>
             <div class="panel-body">
-                <form class="form-horizontal" role="form" id="fusuario">
+                <form class="form-horizontal" role="form" id="fcliente">
                     <div class="form-group row">
-                        <label class="control-label col-sm-1" for="IDusuario">Codigo:</label>
+                        <label class="control-label col-sm-1" for="IDcliente">Codigo:</label>
                         <div class="input-group col-sm-10">
 
-                            <input type="text" class="form-control " id="IDusuario" name="IDusuario" placeholder="Ingrese Codigo"
+                            <input type="text" class="form-control " id="IDcliente" name="IDcliente" placeholder="Ingrese Codigo"
                                 value="" readonly="true" data-validation="length alphanumeric" data-validation-length="3-12">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="control-label col-sm-1" for="nombreUsu">Nombre:</label>
+                        <label class="control-label col-sm-1" for="nombreCli">Nombre:</label>
                         <div class="input-group col-sm-10">
 
-                            <input type="text" class="form-control" id="nombreUsu" name="nombreUsu" placeholder="Ingrese Nombre"
+                            <input type="text" class="form-control" id="nombreCli" name="nombreCli" placeholder="Ingrese Nombre"
                                 value="" required>
                                 <span class="error-message" style="color:red; display:none;">Se requiere llenarlo</span>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="control-label col-sm-1" for="documentoUsu">Documento:</label>
+                        <label class="control-label col-sm-1" for="nit">Nit:</label>
                         <div class="input-group col-sm-10">
 
-                            <input type="text" class="form-control " id="documentoUsu" name="documentoUsu" placeholder="Ingrese numero Documento"
-                                value="" required>
-                                <span class="error-message" style="color:red; display:none;">Se requiere llenarlo</span>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label class="control-label col-sm-1" for="emailUsu">Email:</label>
-                        <div class="input-group col-sm-10">
-
-                            <input type="email" class="form-control" id="emailUsu" name="emailUsu" placeholder="ejemplo@correo.com"
-                                value="" required>
-                                <span class="error-message" style="color:red; display:none;">Se requiere llenarlo</span>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="control-label col-sm-1" for="clave">Contraseña:</label>
-                        <div class="input-group col-sm-10">
-
-                            <input type="password" class="form-control " id="clave" name="clave" placeholder="Ingrese su contraseña"
+                            <input type="text" class="form-control " id="nit" name="nit" placeholder="Ingrese numero Nit"
                                 value="" required>
                                 <span class="error-message" style="color:red; display:none;">Se requiere llenarlo</span>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label class="control-label col-sm-1" for="rol">Rol:</label>
+                        <label class="control-label col-sm-1" for="telefonoCli">Telefono:</label>
                         <div class="input-group col-sm-10">
 
-                            <select class="form-control" id="rol" name="rol">
-                                <option value="">Seleccione ...</option>
-                                <option value="Administrador">Administrador</option>
-                                <option value="Coordinador">Coordinador</option>
-                                <option value="Tecnico">Técnico</option>
-                            </select>
-                            <span class="error-message" style="color:red; display:none;">Se requiere llenarlo</span>
+                            <input type="text" class="form-control" id="telefonoCli" name="telefonoCli" placeholder="Ingrese numero Telefono"
+                                value="" required>
+                                <span class="error-message" style="color:red; display:none;">Se requiere llenarlo</span>
                         </div>
                     </div>
+
                     <div class="form-group row">
-                        <label class="control-label col-sm-1" for="fotoUsu">Foto:</label>
-                        <div class="input-group col-sm-10">
-                            <input type="file" class="form-control" id="fotoUsu1" name="fotoUsu1" accept="image/*" onchange="capturarNombre()">
-                            <input type="hidden" id="fotoUsu" name="fotoUsu">
-                            
-                        </div>
-                        <script>
-                            function capturarNombre() {
-                                const input = document.getElementById('fotoUsu1');
-                                const archivo = input.files[0];
-                                if (archivo) {
-                                    const nombre = archivo.name;
-                                    document.getElementById('fotoUsu').value = nombre;
-                                    //console.log("Nombre de imagen seleccionada:", nombre);
-                                }
-                            }
-                        </script>
-                    </div>
-                    <div class="form-group row">
-                        <label class="control-label col-sm-1" for="estadoUsu">Estado:</label>
+                        <label class="control-label col-sm-1" for="emailCli">Email:</label>
                         <div class="input-group col-sm-10">
 
-                            <select class="form-control" id="estadoUsu" name="estadoUsu">
-                                <option value="">Seleccione ...</option>
-                                <option value="Activo">Activo</option>
-                                <option value="Inactivo">Inactivo</option>
-                            </select>
-                            <span class="error-message" style="color:red; display:none;">Se requiere llenarlo</span>
+                            <input type="email" class="form-control" id="emailCli" name="emailCli" placeholder="ejemplo@correo.com"
+                                value="" required>
+                                <span class="error-message" style="color:red; display:none;">Se requiere llenarlo</span>
                         </div>
                     </div>
+                    
 
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="button" id="grabar" class="btn btn-primary" data-toggle="tooltip" title="Guardar Usuario">Guardar</button>
+                            <button type="button" id="grabar" class="btn btn-primary" data-toggle="tooltip" title="Guardar Cliente">Guardar</button>
                             <button type="button" id="cerrar" class="btn btn-success btncerrar" data-toggle="tooltip" title="Cancelar">Cancelar</button>
                         </div>
                     </div>

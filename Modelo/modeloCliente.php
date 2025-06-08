@@ -1,33 +1,49 @@
 <?php
     require_once("modeloAbstractoDB.php");
 	
-    class Comuna extends ModeloAbstractoDB {
-		private $comu_codi;
-		private $comu_nomb;
-		private $muni_codi;
+    class Cliente extends ModeloAbstractoDB {
+		private $IDcliente;
+		private $nombreCli;
+		private $nit;
+		private $telefonoCli;
+		private $emailCli;
+		private $update_at;
 		
 		function __construct() {
 			//$this->db_name = '';
 		}
 
-		public function getComu_codi(){
-			return $this->comu_codi;
+		public function getIDcliente(){
+			return $this->IDcliente;
 		}
 
-		public function getComu_nomb(){
-			return $this->comu_nomb;
+		public function getNombreCli(){
+			return $this->nombreCli;
 		}
 		
-		public function getMuni_codi(){
-			return $this->muni_codi;
+		public function getNit(){
+			return $this->nit;
 		}
 
-		public function consultar($comu_codi='') {
-			if($comu_codi !=''):
+		public function getTelefonoCli(){
+			return $this->telefonoCli;
+		}
+
+		public function getEmailCli(){
+			return $this->emailCli;
+		}
+		
+		public function getUpdate_at(){
+			return $this->update_at;
+		}
+
+
+		public function consultar($IDcliente='') {
+			if($IDcliente !=''):
 				$this->query = "
-				SELECT comu_codi, comu_nomb, muni_codi
-				FROM tb_comuna
-				WHERE comu_codi = '$comu_codi' order by comu_codi
+				SELECT IDcliente, nombreCli, nit, telefonoCli, emailCli
+				FROM cliente
+				WHERE IDcliente = '$IDcliente' order by IDcliente
 				";
 				$this->obtener_resultados_query();
 			endif;
@@ -40,9 +56,8 @@
 		
 		public function lista() {
 			$this->query = "
-			SELECT comu_codi, comu_nomb, m.muni_nomb
-			FROM tb_comuna as c inner join tb_municipio as m
-			ON (c.muni_codi = m.muni_codi) order by comu_codi
+			SELECT IDcliente, nombreCli, nit, telefonoCli, emailCli
+				FROM cliente
 			";
 			
 			$this->obtener_resultados_query();
@@ -51,15 +66,15 @@
 		}
 		
 		public function nuevo($datos=array()) {
-			if(array_key_exists('comu_codi', $datos)):
+			if(array_key_exists('IDcliente', $datos)):
 				foreach ($datos as $campo=>$valor):
 					$$campo = $valor;
 				endforeach;
 				$this->query = "
-					INSERT INTO tb_comuna
-					(comu_codi, comu_nomb, muni_codi, update_at)
+					INSERT INTO cliente
+					(nombreCli, nit, telefonoCli, emailCli, update_at)
 					VALUES
-					(NULL, '$comu_nomb', '$muni_codi',NOW())
+					('$nombreCli', '$nit', '$telefonoCli', '$emailCli', NOW())
 					";
 					$resultado = $this->ejecutar_query_simple();
 					return $resultado;
@@ -72,20 +87,22 @@
 				$$campo = $valor;
 			endforeach;
 			$this->query = "
-			UPDATE tb_comuna
-			SET comu_nomb ='$comu_nomb',
-			muni_codi ='$muni_codi',
+			UPDATE cliente
+			SET nombreCli ='$nombreCli',
+			nit ='$nit',
+			telefonoCli ='$telefonoCli',
+			emailCli ='$emailCli',
 			update_at = NOW()
-			WHERE comu_codi = '$comu_codi'
+			WHERE IDcliente = '$IDcliente'
 			";
 			$resultado = $this->ejecutar_query_simple();
 			return $resultado;
 		}
 		
-		public function borrar($comu_codi='') {
+		public function borrar($IDcliente='') {
 			$this->query = "
-			DELETE FROM tb_comuna
-			WHERE comu_codi = '$comu_codi'
+			DELETE FROM cliente
+			WHERE IDcliente = '$IDcliente'
 			";
 			$resultado = $this->ejecutar_query_simple();
 

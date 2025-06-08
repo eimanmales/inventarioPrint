@@ -2,11 +2,11 @@
       
       <h1>
         Gestión de
-        <small>  Usuarios</small>
+        <small>  Clientes</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Usuario</li>
+        <li class="active">Cliente</li>
       </ol>
     </section>
 
@@ -16,10 +16,10 @@
         <div class="col-xs-12">
          <div class="box">
             <div class="box-header with-border">
-              <h3 class="box-title">Listado de Usuarios</h3>
+              <h3 class="box-title">Listado de Clientes</h3>
               <div class="box-tools pull-right">
                   <button class="btn btn-info btn-sm" id="nuevo"  data-toggle="tooltip" 
-                      title="Nuevo usuario"><i class="fa fa-plus" aria-hidden="true"></i></button> 
+                      title="Nuevo Cliente"><i class="fa fa-plus" aria-hidden="true"></i></button> 
               </div>
             </div>
            
@@ -33,12 +33,9 @@
                 <tr>
                   <th>Codigo</th>
                   <th>Nombre</th>
-                  <th>Documento</th>
+                  <th>Nit</th>
+                  <th>Telefono</th>
                   <th>Email</th>
-                  <th>Clave</th>
-                  <th>Rol</th>
-                  <th>Foto</th>
-                  <th>Estado</th>
                   <th>Acciones</th>
                 </tr>
                 </thead>
@@ -73,10 +70,10 @@
   </div>
   <!-- /.content-wrapper -->
 
-<script src="./Recursos/js/funcionesUsuario.js"></script>
+<script src="./Recursos/js/funcionesCliente.js"></script>
 <!-- Funciones de Lógica de neogcio -->
 <script>
-    $(document).ready(usuario);
+    $(document).ready(clientes);
 </script>
 
 
