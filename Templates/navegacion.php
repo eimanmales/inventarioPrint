@@ -6,7 +6,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="./Recursos/img/<?php echo $_SESSION['fotoUsu']; ?>.png" class="img-circle" alt="User Image">
+          <img src="./Recursos/img/<?php echo $_SESSION['fotoUsu'];?>" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p><?php echo $_SESSION["nombreUsu"]; ?></p>
@@ -45,8 +45,8 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="./vistas/Usuario/usuario.php"><i class="fas fa-users"></i> Usuarios</a></li>
-            <li><a id="prueba" href="#"><i class="fa fa-print"></i> Dispositivos</a></li>
-            <li><a href="./vistas/comuna/comuna.php"><i class="fas fa-building"></i> Clientes</a></li>
+            <li><a id="prueba" href="./vistas/Dispositivo/dispositivo.php"><i class="fa fa-print"></i> Dispositivos</a></li>
+            <li><a href="./vistas/Cliente/cliente.php"><i class="fas fa-building"></i> Clientes</a></li>
                          
           </ul>
         </li>

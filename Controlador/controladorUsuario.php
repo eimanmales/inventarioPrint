@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 
 header('Content-Type: application/json');
 
-
+ $datos = array_map('trim', $_POST);
 
 file_put_contents("debug.log", print_r($_POST, true));
 //var_dump($_POST);
@@ -24,7 +24,7 @@ switch ($_POST['accion']){
         $datos = array("documento"=>$usuario, "clave"=>$password);
 
         $usuario = new Usuario();
-        $usuario->consultar($datos);
+        $usuario->consultaLogin($datos);
 
         if($usuario->getIDusuario() == null) {
             $respuesta = array(
@@ -34,7 +34,7 @@ switch ($_POST['accion']){
             if(password_verify($datos['clave'],$usuario->getClave())){
                 session_start();
                 $_SESSION['documentoUsu'] = $usuario->getDocumentoUsu();
-                $_SESSION['nombreUsu'] = $usuario->getNombreUsua();
+                $_SESSION['nombreUsu'] = $usuario->getNombreUsu();
                 $_SESSION['fotoUsu'] = $usuario->getFotoUsu();
                 $respuesta = array(
                     'respuesta' =>'existe'
@@ -47,30 +47,40 @@ switch ($_POST['accion']){
             
         }
         echo json_encode($respuesta);
-        break;
     break;
+
     case 'editar':
+        //var_dump($_POST);
         $usuario = new Usuario();
         $resultado = $usuario->editar($datos);
         $respuesta = array(
                 'respuesta' => $resultado
             );
         echo json_encode($respuesta);
-        break;
+    break;
+
     case 'nuevo':
-        $usuario = new Usuario();
-        $resultado = $usuario->nuevo($datos);
-        if($resultado > 0) {
-            $respuesta = array(
-                'respuesta' => $resultado
-            );
-        }  else {
-            $respuesta = array(
-                'respuesta' => $resultado
-            );
-        }
-        echo json_encode($respuesta);
-        break;
+    $usuario = new Usuario();
+    $resultado = $usuario->nuevo($datos);
+
+    // Valida que sea numérico (porque puede retornar false si falla)
+    if ($resultado && is_numeric($resultado)) {
+        $respuesta = array(
+            'respuesta' => true,
+            'id' => $resultado // Si deseas devolver el ID insertado
+        );
+    } else {
+        // Puedes usar un mensaje más útil si habilitas logs
+        $respuesta = array(
+            'respuesta' => false,
+            'error' => 'No se pudo insertar el usuario'
+        );
+    }
+
+    // Importante: Asegúrate que no haya ECHO antes
+    header('Content-Type: application/json'); // Opcional pero recomendado
+    echo json_encode($respuesta);
+    break;
        
     case 'borrar':
 		$usuario = new Usuario();
@@ -88,17 +98,20 @@ switch ($_POST['accion']){
         break;
 
     case 'consultar':
+        //var_dump($_POST);
+        $codigo = htmlspecialchars(trim($_POST['codigo']));
+        $datos = array('codigo'=>$codigo);
         $usuario = new Usuario();
-        $usuario->consultar($datos['codigo']);
+        $usuario->consultar($datos);
 
-        if($usuario->getComu_codi() == null) {
+        if($usuario->getIDusuario() == null) {
             $respuesta = array(
                 'respuesta' => 'no existe'
             );
         }  else {
             $respuesta = array(
                 'IDusuario' => $usuario->getIDusuario(),
-                'nombreUsu' => $usuario->getNombreUsua(),
+                'nombreUsu' => $usuario->getNombreUsu(),
                 'documentoUsu' =>$usuario->getDocumentoUsu(),
                 'emailUsu' => $usuario->getEmailUsu(),
                 'clave' => $usuario->getClave(),

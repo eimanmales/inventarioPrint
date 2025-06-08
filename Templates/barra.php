@@ -25,13 +25,13 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="./Recursos/img/<?php echo $_SESSION['fotoUsu']; ?>.png" class="user-image" alt="User Image">
+              <img src="./Recursos/img/<?php echo $_SESSION['fotoUsu']; ?>" class="user-image" alt="User Image">
               <span class="hidden-xs"> <?php echo $_SESSION["nombreUsu"]; ?></span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="./Recursos/img/<?php echo $_SESSION['fotoUsu']; ?>.png" class="img-circle" alt="User Image">
+                <img src="./Recursos/img/<?php echo $_SESSION['fotoUsu']; ?>" class="img-circle" alt="User Image">
 
                 <p>
                   <?php echo $_SESSION["nombreUsu"]; ?>

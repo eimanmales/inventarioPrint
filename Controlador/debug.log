@@ -1,4 +1,5 @@
 Array
 (
-    [accion] => listar
+    [codigo] => 24
+    [accion] => consultar
 )
